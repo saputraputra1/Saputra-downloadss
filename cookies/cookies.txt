@@ -1,0 +1,3 @@
+.instagram.com	TRUE	/	TRUE	1786934631	csrftoken	x0GItQu1qwQWiYTHP6fhH9h3mXesbRWF
+.instagram.com	TRUE	/	TRUE	1760150631	ds_user_id	56609172412
+.instagram.com	TRUE	/	TRUE	1783910592	sessionid	56609172412%3AYp3s2w9wG4JOC9%3A27%3AAYc018YdOM7gfa13-q8JolvzEIlyIK0Z0zfWdnyT0Q
