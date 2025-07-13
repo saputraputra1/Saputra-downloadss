@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saputra Downloader</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="logo">🌟 Saputra Downloader</h1>
+    <p class="tagline">Download video dari Instagram, TikTok, YouTube, Facebook, dan lainnya</p>
+
+    <form id="form">
+      <input type="url" id="url" placeholder="Masukkan link video..." required>
+      <select id="platform">
+        <option value="youtube">YouTube</option>
+        <option value="instagram">Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="facebook">Facebook</option>
+        <option value="twitter">X (Twitter)</option>
+        <option value="threads">Threads</option>
+      </select>
+      <button type="submit">Download</button>
+    </form>
+
+    <div id="loading" class="hidden">⏳ Memproses...</div>
+    <div id="result"></div>
+    <div id="stats"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
