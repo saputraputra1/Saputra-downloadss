@@ -1,0 +1,9 @@
+{
+  "build": {
+    "env": {},
+    "command": "npm install"
+  },
+  "start": {
+    "command": "node index.js"
+  }
+}
