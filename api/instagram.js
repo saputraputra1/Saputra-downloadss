@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
   if (!url) return res.status(400).json({ status: false, message: 'URL kosong!' });
 
   const format = type === 'audio' ? 'bestaudio' : 'best';
-  const cookieFile = path.join(__dirname, '../cookies/cookies1.txt');
+  const cookieFile = path.join(__dirname, '../cookies/cookies.txt');
   const cmd = `yt-dlp -f ${format} --cookies "${cookieFile}" -g "${url}"`;
 
   exec(cmd, (err, stdout, stderr) => {
