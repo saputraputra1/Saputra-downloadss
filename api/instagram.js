@@ -9,8 +9,10 @@ router.post('/', (req, res) => {
   if (!url) return res.status(400).json({ status: false, message: 'URL kosong!' });
 
   const format = type === 'audio' ? 'bestaudio' : 'best';
-  const cookieFile = path.join(__dirname, '../cookies/cookies.txt');
-  const cmd = `yt-dlp -f ${format} --cookies "${cookieFile}" -g "${url}"`;
+  const cookieFile = path.join(__dirname, '../cookies/cookies.txt'); // Gunakan file cookies yang tersedia
+  const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
+
+  const cmd = `yt-dlp -f ${format} --cookies "${cookieFile}" --user-agent "${ua}" -g "${url}"`;
 
   exec(cmd, (err, stdout, stderr) => {
     if (err || !stdout.trim()) {
