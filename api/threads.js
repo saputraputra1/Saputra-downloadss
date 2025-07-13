@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const { loadCookieHeader } = require("../cookies"); // jika pakai multi-cookie
+const fs = require("fs");
+const path = require("path");
 
 module.exports = async function (req, res) {
   const { url } = req.query;
@@ -9,11 +10,14 @@ module.exports = async function (req, res) {
   }
 
   try {
-    // Ambil cookie secara otomatis jika kamu punya sistem multi-cookie
+    // Baca cookies.txt
+    const cookiePath = path.join(__dirname, "../cookies/cookies.txt");
+    const cookieString = fs.existsSync(cookiePath) ? fs.readFileSync(cookiePath, "utf8") : "";
+
     const headers = {
       "User-Agent":
         "Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36",
-      "Cookie": loadCookieHeader("threads") || "", // opsional
+      "Cookie": cookieString.trim(),
     };
 
     const { data: html } = await axios.get(url, { headers });
@@ -27,15 +31,13 @@ module.exports = async function (req, res) {
       return res.status(404).json({ status: false, message: "Media tidak ditemukan." });
     }
 
-    return res.json({
+    res.json({
       status: true,
       url: media,
-      type: "video",
-      desc: json.description || "",
-      author: json.author?.name || null,
+      title: json.name || "Threads Video",
+      thumbnail: json.thumbnailUrl || null,
     });
-  } catch (e) {
-    console.error("THREADS ERROR:", e.message);
-    return res.status(500).json({ status: false, message: "Gagal mengambil konten Threads." });
+  } catch (err) {
+    res.status(500).json({ status: false, message: "Gagal mengambil data.", error: err.message });
   }
 };
