@@ -1,30 +1,34 @@
+// === index.js FINAL untuk Railway ===
+
+const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const app = express();
 
-const COOKIES_FILE = path.join(__dirname, 'cookies.txt');
+// Middleware (opsional untuk body parser jika pakai POST)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-function getCookies() {
-  try {
-    const lines = fs.readFileSync(COOKIES_FILE, 'utf-8')
-      .split('\n')
-      .filter(line => line.trim() && !line.startsWith('#'));
+// Public folder (jika kamu simpan hasil download)
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-    const cookies = lines.map(line => {
-      const parts = line.split('\t');
-      if (parts.length >= 7) {
-        return `${parts[5]}=${parts[6]}`;
-      } else {
-        return ''; // skip baris invalid
-      }
-    }).filter(Boolean); // hapus yang kosong
+// === Contoh route utama ===
+app.get('/', (req, res) => {
+  res.send('🚀 API Downloader aktif dan berjalan dengan sukses di Railway!');
+});
 
-    return cookies.join('; ');
-  } catch (err) {
-    console.error('[COOKIES] Gagal parsing cookies.txt:', err);
-    return '';
-  }
-}
+// === Contoh route untuk status download (dummy) ===
+app.get('/api/status', (req, res) => {
+  res.json({ status: 'ok', message: 'Downloader aktif.' });
+});
 
-module.exports = {
-  getCookies
-};
+// === Tambahkan route downloader kamu di sini ===
+// Misal: require('./routes/instagram')(app);
+// Misal: require('./routes/facebook')(app);
+// Pastikan file route-nya ada jika ingin modular
+
+// === Menjalankan server ===
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`✅ Server berjalan di port ${PORT}`);
+});
