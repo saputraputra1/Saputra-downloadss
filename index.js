@@ -1,34 +1,23 @@
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const stats = require('./utils/stats');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-app.use(cors());
+// Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Catat kunjungan ke halaman utama
-app.get('/', (req, res) => {
-  stats.recordVisit();
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Routes API aktif
+app.use('/api/facebook', require('./api/facebook'));
+app.use('/api/instagram', require('./api/instagram'));
+app.use('/api/tiktok', require('./api/tiktok'));
+app.use('/api/youtube', require('./api/youtube'));
+app.use('/api/threads', require('./api/threads')); // Aktif jika threads.js ada
 
-// Endpoint statistik
-app.get('/stats', (req, res) => {
-  res.json(stats.getStats());
-});
+// app.use('/api/twitter', require('./api/twitter')); // ❌ Dihapus karena file tidak ada
 
-// API routes
-app.use('/youtube', require('./api/youtube'));
-app.use('/instagram', require('./api/instagram'));
-app.use('/tiktok', require('./api/tiktok'));
-app.use('/facebook', require('./api/facebook'));
-app.use('/threads', require('./api/threads'));
-app.use('/twitter', require('./api/twitter'));
+// Public folder
+app.use(express.static('public'));
 
-app.listen(PORT, () => {
-  console.log(`✅ Server aktif di http://localhost:${PORT}`);
+// Start server
+app.listen(port, () => {
+  console.log(`Server berjalan di port ${port}`);
 });
